@@ -36,7 +36,7 @@ Features:
 
 For AWS LightSail use Linux_AMD64
 
-wget https://github.com/aler9/rtsp-simple-server/releases/download/
+wget https://github.com/aler9/rtsp-simple-server/releases
 
 ### Extract the binary and a yaml config file
 
