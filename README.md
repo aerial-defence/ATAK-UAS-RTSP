@@ -48,7 +48,7 @@ wget https://github.com/aler9/rtsp-simple-server/releases
 
 ### Copy the configuration file to use with ATAK to /usr/local/etc
 
-    sudo curl -K https://gist.github.com/curtishall/77b9dd3660511b7e173fbc4647ccfcb3#file-rtsp-simple-server-yml -o /usr/local/etc/rtsp-simple-config.yml
+    sudo curl -K https://github.com/aerial-defence/ATAK-UAS-RTSP/blob/main/rtsp-simple-server.yml -o /usr/local/etc/rtsp-simple-config.yml
 
 ### Create a server file
 
