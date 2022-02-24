@@ -69,6 +69,9 @@ Start rtsp-simple-server and tail syslog to see how things look
 
     sudo systemctl start rtsp-simple-server && tail -f /var/log/syslog
 
+Check that the service is running
+
+    systemctl status rtsp-simple-server.service
 
 ### In ATAK UAS Tool use the following Network Preferences:
 
