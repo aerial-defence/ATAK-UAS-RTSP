@@ -42,6 +42,10 @@ wget https://github.com/aler9/rtsp-simple-server/releases
 
     tar -zxvf rtsp-simple-server_v0.17.13_linux_amd64.tar.gz
 
+### Give Root access to folder /usr/local/etc/
+
+    sudo chmod a+rwx /usr/local/etc/
+    
 ### Copy the binary to /usr/local/bin/
 
     sudo cp rtsp-simple-server /usr/local/bin/rtsp-simple-server
