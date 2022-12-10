@@ -109,7 +109,7 @@ For AWS, I have the following ports forwarded
  - Video Destination IP Address: <ip address of the server> i.e. - 192.168.86.232  
  - Video Destination Port: 8554
  - Use SSL: No  
- - Video Broadcast Identifier: live/UAS-OVERWATCH (or other custom name)
+ - Video Broadcast Identifier: live/ATAK
  - Reliable P2P Connection (TCP): Yes
 
 (The live/ATAK can be changed, but make sure to not put an ending slash)
