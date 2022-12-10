@@ -99,6 +99,12 @@ Check that the service is running
 
 ### Then test with VLC -> Open Network Stream, adjust path name according:
 
-rtsp://ipaddress:554/live/ATAK
+rtsp://ipaddress:8554/live/ATAK
 
 ### HLS instructions coming soon.
+
+# AWS Port Forwarding
+
+For AWS, I have the following ports forwarded
+
+    [security_group](https://user-images.githubusercontent.com/1116396/206856817-6b1abec0-60fd-4335-a2ee-46f81a36fc4b.jpg)
