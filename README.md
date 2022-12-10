@@ -36,19 +36,23 @@ Features:
 
 For AWS LightSail use Linux_AMD64
 
-wget https://github.com/aler9/rtsp-simple-server/releases
+    wget https://github.com/aler9/rtsp-simple-server/releases/download/v0.20.3/rtsp-simple-server_v0.20.3_linux_amd64.tar.gz
 
 ### Extract the binary and a yaml config file
 
-    tar -zxvf rtsp-simple-server_v0.17.13_linux_amd64.tar.gz
+    tar -zxvf rtsp-simple-server_v0.20.3_linux_amd64.tar.gz
 
 ### Give Root access to folder /usr/local/etc/
 
     sudo chmod a+rwx /usr/local/etc/
     
-### Copy the binary to /usr/local/bin/
+### Copy the rtsp-simple-server binary to /usr/local/bin/
 
     sudo cp rtsp-simple-server /usr/local/bin/rtsp-simple-server
+    
+### Copy the rtsp-simple-server.yml binary to /usr/local/etc/
+
+    sudo cp rtsp-simple-server.yml /usr/local/etc/rtsp-simple-server.yml
 
 ### Copy the configuration file to use with ATAK to /usr/local/etc
 
