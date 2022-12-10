@@ -107,4 +107,4 @@ rtsp://ipaddress:8554/live/ATAK
 
 For AWS, I have the following ports forwarded
 
-    [security_group](https://user-images.githubusercontent.com/1116396/206856817-6b1abec0-60fd-4335-a2ee-46f81a36fc4b.jpg)
+[security_group](https://user-images.githubusercontent.com/1116396/206856817-6b1abec0-60fd-4335-a2ee-46f81a36fc4b.jpg)
