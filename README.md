@@ -81,13 +81,15 @@ Check that the service is running
 
     systemctl status rtsp-simple-server.service
 
-### In ATAK UAS Tool use the following Network Preferences:
+# ATAK UAS Plugin Settings (current for UASTool 12.0)
+### In ATAK UAS Tool use the following Network Preferences (Video Broadcast Preferences):
 
- - Video Broadcast Type: Wowza Video  
- - Destination IP Address: <ip address of the server> i.e. - 192.168.86.232  
- - Video Destination Port: 554 
+ - Video Broadcast Destination: RTSP-Push (VMS systems)
+ - Video Destination IP Address: <ip address of the server> i.e. - 192.168.86.232  
+ - Video Destination Port: 8554
  - Use SSL: No  
- - Video Broadcast Identifier: live/ATAK
+ - Video Broadcast Identifier: live/UAS-OVERWATCH (or other custom name)
+ - Reliable P2P Connection (TCP): Yes
 
 (The live/ATAK can be changed, but make sure to not put an ending slash)
 
