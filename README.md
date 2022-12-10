@@ -82,18 +82,6 @@ Check that the service is running
 
     systemctl status rtsp-simple-server.service
 
-# ATAK UAS Plugin Settings (current for UASTool 12.0)
-### In ATAK UAS Tool use the following Network Preferences (Video Broadcast Preferences):
-
- - Video Broadcast Destination: RTSP-Push (VMS systems)
- - Video Destination IP Address: <ip address of the server> i.e. - 192.168.86.232  
- - Video Destination Port: 8554
- - Use SSL: No  
- - Video Broadcast Identifier: live/UAS-OVERWATCH (or other custom name)
- - Reliable P2P Connection (TCP): Yes
-
-(The live/ATAK can be changed, but make sure to not put an ending slash)
-
 ### Then try to broadcast video, you should see this in /var/log/syslog:
 
 > Jan 12 23:55:41 rtsp-atak rtsp-simple-server[17053]: 2022/01/12 23:55:41 INF [RTSP] [conn 192.168.86.60:52250] opened 
@@ -113,3 +101,15 @@ For AWS, I have the following ports forwarded
 <p align="center">
     <img src="https://user-images.githubusercontent.com/1116396/206856817-6b1abec0-60fd-4335-a2ee-46f81a36fc4b.jpg" alt="AWS Security Group">
 </p>
+
+# ATAK UAS Plugin Settings (current for UASTool 12.0)
+### In ATAK UAS Tool use the following Network Preferences (Video Broadcast Preferences):
+
+ - Video Broadcast Destination: RTSP-Push (VMS systems)
+ - Video Destination IP Address: <ip address of the server> i.e. - 192.168.86.232  
+ - Video Destination Port: 8554
+ - Use SSL: No  
+ - Video Broadcast Identifier: live/UAS-OVERWATCH (or other custom name)
+ - Reliable P2P Connection (TCP): Yes
+
+(The live/ATAK can be changed, but make sure to not put an ending slash)
