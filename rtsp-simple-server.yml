@@ -5,9 +5,9 @@
 # Sets the verbosity of the program; available values are "error", "warn", "info", "debug".
 logLevel: info
 # Destinations of log messages; available values are "stdout", "file" and "syslog".
-logDestinations: [stdout]
+logDestinations: [file]
 # If "file" is in logDestinations, this is the file which will receive the logs.
-logFile: rtsp-simple-server.log
+logFile: /usr/local/etc/rtsp-simple-server.log
 
 # Timeout of read operations.
 readTimeout: 10s
