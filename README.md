@@ -34,6 +34,7 @@ Features:
 
 # Download the latest rtsp-simple-server
 
+For AWS E2 use Linux 22.04 LTS t3.large (2v CPU and 8GB RAM)
 For AWS LightSail use Linux_AMD64
 
     wget https://github.com/aler9/rtsp-simple-server/releases/download/v0.20.3/rtsp-simple-server_v0.20.3_linux_amd64.tar.gz
