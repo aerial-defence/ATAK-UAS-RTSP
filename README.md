@@ -1,10 +1,10 @@
 # ATAK-UAS-RTSP
 
 <p align="center">
-    <img src="/images/logo.png" alt="rtsp-simple-server">
+    <img src="/images/logo.png" alt="mediamtx">
 </p>
 
-_rtsp-simple-server_ is a ready-to-use and zero-dependency server and proxy that allows users to publish, read and proxy live video and audio streams through various protocols:
+_mediamtx_ is a ready-to-use and zero-dependency server and proxy that allows users to publish, read and proxy live video and audio streams through various protocols:
 
 |protocol|description|publish|read|proxy|
 |--------|-----------|-------|----|-----|
@@ -36,7 +36,6 @@ Features:
     sudo apt-get update
     sudo apt-get upgrade
     sudo reboot -h now
-
 
 # Download the latest rtsp-simple-server
 
