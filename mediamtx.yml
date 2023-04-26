@@ -16,6 +16,9 @@ writeTimeout: 10s
 # Number of read buffers.
 # A higher value allows a wider throughput, a lower value allows to save RAM.
 readBufferCount: 512
+# Maximum size of payload of outgoing UDP packets.
+# This can be decreased to avoid fragmentation on networks with a low UDP MTU.
+udpMaxPayloadSize: 1472
 
 # HTTP URL to perform external authentication.
 # Every time a user wants to authenticate, the server calls this URL
@@ -25,8 +28,10 @@ readBufferCount: 512
 #   "user": "user",
 #   "password": "password",
 #   "path": "path",
-#   "action": "read|publish"
-#   "query": "url's raw query"
+#   "protocol": "rtsp|rtmp|hls|webrtc",
+#   "id": "id",
+#   "action": "read|publish",
+#   "query": "query"
 # }
 # If the response code is 20x, authentication is accepted, otherwise
 # it is discarded.
@@ -93,10 +98,6 @@ serverKey: server.key
 serverCert: server.crt
 # Authentication methods.
 authMethods: [basic, digest]
-# read buffer size.
-# this doesn't influence throughput and shouldn't be touched unless the server
-# reports errors about the buffer size.
-readBufferSize: 2048
 
 ###############################################
 # RTMP parameters
@@ -125,6 +126,16 @@ rtmpServerCert: server.crt
 hlsDisable: no
 # Address of the HLS listener.
 hlsAddress: :8888
+# Enable TLS/HTTPS on the HLS server.
+# This is required for Low-Latency HLS.
+hlsEncryption: no
+# Path to the server key. This is needed only when encryption is yes.
+# This can be generated with:
+# openssl genrsa -out server.key 2048
+# openssl req -new -x509 -sha256 -key server.key -out server.crt -days 3650
+hlsServerKey: server.key
+# Path to the server certificate.
+hlsServerCert: server.crt
 # By default, HLS is generated only when requested by a user.
 # This option allows to generate it always, avoiding the delay between request and generation.
 hlsAlwaysRemux: no
@@ -132,7 +143,7 @@ hlsAlwaysRemux: no
 # * mpegts - uses MPEG-TS segments, for maximum compatibility.
 # * fmp4 - uses fragmented MP4 segments, more efficient.
 # * lowLatency - uses Low-Latency HLS.
-hlsVariant: mpegts
+hlsVariant: lowLatency
 # Number of HLS segments to keep on the server.
 # Segments allow to seek through the stream.
 # Their number doesn't influence latency.
@@ -155,20 +166,58 @@ hlsSegmentMaxSize: 50M
 # Value of the Access-Control-Allow-Origin header provided in every HTTP response.
 # This allows to play the HLS stream from an external website.
 hlsAllowOrigin: '*'
-# Enable TLS/HTTPS on the HLS server.
-# This is required for Low-Latency HLS.
-hlsEncryption: no
-# Path to the server key. This is needed only when encryption is yes.
-# This can be generated with:
-# openssl genrsa -out server.key 2048
-# openssl req -new -x509 -sha256 -key server.key -out server.crt -days 3650
-hlsServerKey: server.key
-# Path to the server certificate.
-hlsServerCert: server.crt
-# List of IPs or CIDRs of proxies behind the HLS server.
+# List of IPs or CIDRs of proxies placed before the HLS server.
 # If the server receives a request from one of these entries, IP in logs
 # will be taken from the X-Forwarded-For header.
 hlsTrustedProxies: []
+# Directory in which to save segments, instead of keeping them in the RAM.
+# This decreases performance, since reading from disk is less performant than
+# reading from RAM, but allows to save RAM.
+hlsDirectory: ''
+
+###############################################
+# WebRTC parameters
+
+# Disable support for the WebRTC protocol.
+webrtcDisable: no
+# Address of the WebRTC listener.
+webrtcAddress: :8889
+# Enable TLS/HTTPS on the WebRTC server.
+webrtcEncryption: no
+# Path to the server key.
+# This can be generated with:
+# openssl genrsa -out server.key 2048
+# openssl req -new -x509 -sha256 -key server.key -out server.crt -days 3650
+webrtcServerKey: server.key
+# Path to the server certificate.
+webrtcServerCert: server.crt
+# Value of the Access-Control-Allow-Origin header provided in every HTTP response.
+# This allows to play the WebRTC stream from an external website.
+webrtcAllowOrigin: '*'
+# List of IPs or CIDRs of proxies placed before the WebRTC server.
+# If the server receives a request from one of these entries, IP in logs
+# will be taken from the X-Forwarded-For header.
+webrtcTrustedProxies: []
+# List of ICE servers, in format type:user:pass:host:port or type:host:port.
+# type can be "stun", "turn" or "turns".
+# STUN servers are used to get the public IP of both server and clients.
+# TURN/TURNS servers are used as relay when a direct connection between server and clients is not possible.
+# if user is "AUTH_SECRET", then authentication is secret based.
+# the secret must be inserted into the pass field.
+webrtcICEServers: [stun:stun.l.google.com:19302]
+# List of public IP addresses that are to be used as a host.
+# This is used typically for servers that are behind 1:1 D-NAT.
+webrtcICEHostNAT1To1IPs: []
+# Address of a ICE UDP listener in format host:port.
+# If filled, ICE traffic will come through a single UDP port,
+# allowing the deployment of the server inside a container or behind a NAT.
+webrtcICEUDPMuxAddress:
+# Address of a ICE TCP listener in format host:port.
+# If filled, ICE traffic will come through a single TCP port,
+# allowing the deployment of the server inside a container or behind a NAT.
+# At the moment, setting this parameter forces usage of the TCP protocol,
+# which is not optimal for WebRTC.
+webrtcICETCPMuxAddress:
 
 ###############################################
 # Path parameters
@@ -189,6 +238,7 @@ paths:
     # * rtmps://existing-url -> the stream is pulled from another RTMP server / camera with RTMPS
     # * http://existing-url/stream.m3u8 -> the stream is pulled from another HLS server
     # * https://existing-url/stream.m3u8 -> the stream is pulled from another HLS server with HTTPS
+    # * udp://ip:port -> the stream is pulled from UDP, by listening on the specified IP and port
     # * redirect -> the stream is provided by another path or server
     # * rpiCamera -> the stream is provided by a Raspberry Pi Camera
     source: publisher
@@ -257,8 +307,8 @@ paths:
     # values: auto, incandescent, tungsten, fluorescent, indoor, daylight, cloudy, custom
     rpiCameraAWB: auto
     # denoise operating mode.
-    # values: auto, off, cdn_off, cdn_fast, cdn_hq
-    rpiCameraDenoise: auto
+    # values: off, cdn_off, cdn_fast, cdn_hq
+    rpiCameraDenoise: "off"
     # fixed shutter speed, in microseconds.
     rpiCameraShutter: 0
     # metering mode of the AEC/AGC algorithm.
@@ -285,6 +335,29 @@ paths:
     rpiCameraProfile: main
     # H264 level
     rpiCameraLevel: '4.1'
+    # Autofocus mode
+    # values: auto, manual, continuous
+    rpiCameraAfMode: auto
+    # Autofocus range
+    # values: normal, macro, full
+    rpiCameraAfRange: normal
+    # Autofocus speed
+    # values: normal, fast
+    rpiCameraAfSpeed: normal
+    # Lens position (for manual autofocus only), will be set to focus to a specific distance
+    # calculated by the following formula: d = 1 / value
+    # Examples: 0 moves the lens to infinity.
+    #           0.5 moves the lens to focus on objects 2m away.
+    #           2 moves the lens to focus on objects 50cm away.
+    rpiCameraLensPosition: 0.0
+    # Specifies the autofocus window, in the form x,y,width,height where the coordinates
+    # are given as a proportion of the entire image.
+    rpiCameraAfWindow:
+    # enables printing text on each frame.
+    rpiCameraTextOverlayEnable: false
+    # text that is printed on each frame.
+    # format is the one of the strftime() function.
+    rpiCameraTextOverlay: '%Y-%m-%d %H:%M:%S - MediaMTX'
 
     # Username required to publish.
     # SHA256-hashed values can be inserted with the "sha256:" prefix.
