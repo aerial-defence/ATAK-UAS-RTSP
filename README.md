@@ -28,9 +28,9 @@ Features:
 * Reload the configuration without disconnecting existing clients (hot reloading)
 * Compatible with Linux, Windows and macOS, does not require any dependency or interpreter, it's a single executable
 
-[![Release](https://img.shields.io/github/v/release/aler9/rtsp-simple-server)](https://github.com/aler9/rtsp-simple-server/releases)
-[![Docker Hub](https://img.shields.io/badge/docker-aler9/rtsp--simple--server-blue)](https://hub.docker.com/r/aler9/rtsp-simple-server)
-[![API Documentation](https://img.shields.io/badge/api-documentation-blue)](https://aler9.github.io/rtsp-simple-server)
+[![Release](https://img.shields.io/github/v/release/aler9/mediamtx)](https://github.com/aler9/mediamtx/releases)
+[![Docker Hub](https://img.shields.io/badge/docker-aler9/rtsp--simple--server-blue)](https://hub.docker.com/r/aler9/mediamtx)
+[![API Documentation](https://img.shields.io/badge/api-documentation-blue)](https://aler9.github.io/mediamtx)
 
 # Update the server instance
     sudo apt-get update
@@ -43,50 +43,50 @@ Features:
 For AWS E2 use Linux 22.04 LTS t3.large (2v CPU and 8GB RAM)
 For AWS LightSail use Linux_AMD64
 
-    wget https://github.com/aler9/rtsp-simple-server/releases/download/v0.20.3/rtsp-simple-server_v0.20.3_linux_amd64.tar.gz
+    wget https://github.com/aler9/mediamtx/releases/download/v0.22.2/mediamtx_v0.22.2_linux_amd64.tar.gz
 
 ### Extract the binary and a yaml config file
 
-    tar -zxvf rtsp-simple-server_v0.20.3_linux_amd64.tar.gz
+    tar -zxvf mediamtx_v0.22.2_linux_amd64.tar.gz
 
 ### Give Root access to folder /usr/local/etc/
 
     sudo chmod a+rwx /usr/local/etc/
     
-### Copy the rtsp-simple-server binary to /usr/local/bin/
+### Copy the mediamtx binary to /usr/local/bin/
 
-    sudo cp rtsp-simple-server /usr/local/bin/rtsp-simple-server
+    sudo cp mediamtx /usr/local/bin/mediamtx
     
-### Copy the rtsp-simple-server.yml binary to /usr/local/etc/
+### Copy the mediamtx.yml binary to /usr/local/etc/
 
-    sudo cp rtsp-simple-server.yml /usr/local/etc/rtsp-simple-server.yml
+    sudo cp mediamtx.yml /usr/local/etc/mediamtx.yml
 
 ### Copy the configuration file to use with ATAK to /usr/local/etc
 
-    sudo curl -K https://github.com/aerial-defence/ATAK-UAS-RTSP/blob/main/rtsp-simple-server.yml -o /usr/local/etc/rtsp-simple-config.yml
+    sudo curl -K https://raw.githubusercontent.com/aerial-defence/ATAK-UAS-RTSP/main/mediamtx.yml -o /usr/local/etc/mediamtx.yml
 
 ### Create a server file
 
-    sudo tee /etc/systemd/system/rtsp-simple-server.service >/dev/null << EOF
+    sudo tee /etc/systemd/system/mediamtx.service >/dev/null << EOF
     [Unit]
     After=network.target
     [Service]
-    ExecStart=/usr/local/bin/rtsp-simple-server /usr/local/etc/rtsp-simple-server.yml
+    ExecStart=/usr/local/bin/mediamtx /usr/local/etc/mediamtx.yml
     [Install]
     WantedBy=multi-user.target
     EOF
 
-### Enable the newly created rtsp-simple-server service
+### Enable the newly created mediamtx service
 
-    sudo systemctl enable rtsp-simple-server
+    sudo systemctl enable mediamtx
 
-Start rtsp-simple-server and tail syslog to see how things look
+Start mediamtx and tail syslog to see how things look
 
-    sudo systemctl start rtsp-simple-server && tail -f /var/log/syslog
+    sudo systemctl start mediamtx && tail -f /var/log/syslog
 
 Check that the service is running
 
-    systemctl status rtsp-simple-server.service
+    systemctl status mediamtx.service
 
 ### Then try to broadcast video, you should see this in /var/log/syslog:
 
