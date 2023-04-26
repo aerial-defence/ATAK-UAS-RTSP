@@ -32,6 +32,12 @@ Features:
 [![Docker Hub](https://img.shields.io/badge/docker-aler9/rtsp--simple--server-blue)](https://hub.docker.com/r/aler9/rtsp-simple-server)
 [![API Documentation](https://img.shields.io/badge/api-documentation-blue)](https://aler9.github.io/rtsp-simple-server)
 
+# Update the server instance
+    sudo apt-get update
+    sudo apt-get upgrade
+    sudo reboot -h now
+
+
 # Download the latest rtsp-simple-server
 
 For AWS E2 use Linux 22.04 LTS t3.large (2v CPU and 8GB RAM)
