@@ -42,11 +42,11 @@ Features:
 For AWS E2 use Linux 22.04 LTS t3.large (2v CPU and 8GB RAM)
 For AWS LightSail use Linux_AMD64
 
-    wget https://github.com/aler9/mediamtx/releases/download/v0.22.2/mediamtx_v0.22.2_linux_amd64.tar.gz
+    wget https://github.com/aler9/mediamtx/releases/download/v1.0.0/mediamtx_v1.0.0_linux_amd64.tar.gz
 
 ### Extract the binary and a yaml config file
 
-    tar -zxvf mediamtx_v0.22.2_linux_amd64.tar.gz
+    tar -zxvf mediamtx_v1.0.0_linux_amd64.tar.gz
 
 ### Give Root access to folder /usr/local/etc/
 
